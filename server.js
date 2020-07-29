@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -9,7 +10,6 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const colors = require('colors');
 
-require('dotenv').config();
 require('./config/passportConfig'); //very important to use passport
 app.use(express.json());
 app.use(cors());
@@ -17,6 +17,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //connect to the database
+
 mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTopology: true  },
   ()=> console.log("Connected to the data Base".rainbow));
 
