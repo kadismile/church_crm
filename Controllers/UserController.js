@@ -1,6 +1,6 @@
 const jwtSecret = require('../config/jwtConfig');
 const User = require('../Models/User');
-const user = require('../util/users');
+const user = require('../methods/users');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
 
