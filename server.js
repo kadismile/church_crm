@@ -23,7 +23,7 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTo
 
 app.use('/', require('./routes/index'));
 app.use('/customers', require('./routes/customers'));
-app.use('/users', require('./routes/users'));
+app.use('/api/v1/users', require('./routes/users'));
 
 
 io.on('connection', (socket) => {
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
 
 const port = 5000;
-server.listen(port, () => console.log(`server started on port ${port}`));
+server.listen(port, () => console.log(`server started on port ${port}`.bgCyan));
 
 
 
