@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const randomstring = require("randomstring");
-const {UserBeforeCreate} = require('./hooks/user_hooks');
+const {ChurchBeforeCreate} = require('./hooks/church_hooks');
 const categorySchema = require('../Models/Category');
 
 const addressSchema = mongoose.Schema({
@@ -22,7 +22,17 @@ const addressSchema = mongoose.Schema({
 });
 
 
-const UserSchema = mongoose.Schema({
+const churchAccount = mongoose.Schema({
+  currentBalance: {
+    type: Number,
+    decimal: true,
+    default: function() {
+      return 0
+    }
+  },
+});
+
+const ChurchSchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
@@ -31,23 +41,17 @@ const UserSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true,
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      'Please add a valid email'
-    ]
+    unique: true
   },
   name: {
-    type: String,
-    required: [true, 'Please Add a name']
+    type: String
   },
   phoneNumber: {
     type: String,
     unique: true
   },
   address: {
-    type : [addressSchema],
-    required: [true, 'Please add an address']
+    type : [addressSchema]
   },
   password: {
     type: String,
@@ -60,7 +64,6 @@ const UserSchema = mongoose.Schema({
   },
   category: {
     type : [categorySchema],
-    required: [true, 'Please add a category']
   },
   history: {
     type: Array,
@@ -69,8 +72,15 @@ const UserSchema = mongoose.Schema({
   superAdmin: {
     type: Boolean,
     default: function() {
-      return false;
+      return true;
     }
+  },
+  account: {
+    type: {churchAccount},
+  },
+  group: {
+    type: String,
+    min: [6, 'password too short'],
   },
   createdAt: {
     type: Date,
@@ -79,19 +89,15 @@ const UserSchema = mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  },
-  group: {
-    type: String,
-    required: [true, 'user Must be under a group']
-  },
+  }
 });
 
 //this is the hook after insert
-UserSchema.post("save", async function(doc) {
+ChurchSchema.post("save", async function(doc) {
 
 });
 
-UserSchema.pre("save", async function() {
-  await UserBeforeCreate(this)
+ChurchSchema.pre("save", async function() {
+  await ChurchBeforeCreate(this)
 });
-module.exports = UserSchema;
+module.exports = ChurchSchema;

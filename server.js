@@ -22,8 +22,8 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTo
   ()=> console.log("Connected to the data Base".rainbow));
 
 app.use('/', require('./routes/index'));
-app.use('/customers', require('./routes/customers'));
 app.use('/api/v1/users', require('./routes/users'));
+app.use('/api/v1/church', require('./routes/church'));
 
 
 io.on('connection', (socket) => {
