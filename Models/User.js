@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
-var randomstring = require("randomstring");
+const randomstring = require("randomstring");
+const {UserBeforeCreate} = require('./hooks/user_hooks')
+const categorySchema = require('../Models/Category');
+const {prepareValidPhoneNumber} = require("../utils/helpers");
+const addressSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    default: function() {
+      return randomstring.generate();
+    }
+  },
+  country: {
+    type: String
+  },
+  address: {
+    type: String,
+  },
+  countryCode: {
+    type: String,
+  }
+});
+
 
 const UserSchema = mongoose.Schema({
   _id: {
@@ -8,19 +29,41 @@ const UserSchema = mongoose.Schema({
       return randomstring.generate();
     }
   },
-  username: {
-    type: String,
-    unique: true
-  },
-  password: {
-    type: String
-  },
   email: {
     type: String,
     unique: true
   },
   name: {
     type: String
+  },
+  phoneNumber: {
+    type: String,
+    unique: true
+  },
+  address: {
+    type : [addressSchema]
+  },
+  password: {
+    type: String,
+    min: [6, 'password too short'],
+  },
+  role: {
+    type : Array ,
+    default : [],
+    optional: true,
+  },
+  category: {
+    type : [categorySchema],
+  },
+  history: {
+    type: Array,
+    optional: true,
+  },
+  superAdmin: {
+    type: Boolean,
+    default: function() {
+      return false;
+    }
   },
   createdAt: {
     type: Date,
@@ -30,29 +73,14 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   }
-
 });
 
 //this is the hook after insert
 UserSchema.post("save", async function(doc) {
-  /*console.log('Inserted finished Again.', doc);*/
+
 });
 
-//this is the hook after update
-//****you must use findOneAndUpdate from the controller for this to be fired.
-UserSchema.post("findOneAndUpdate", async function(oldDoc, next) {
- /* let newDoc = this.getUpdate().$set ;
-
-  if(oldDoc.title !== newDoc.title){
-    try{
-      let slug = newDoc.title.replace(/\s+/g, '-').toLowerCase();
-      newDoc.slug = `${slug}-${oldDoc._id}`;
-      await this.updateOne({ _id: oldDoc._id }, { $set: newDoc });
-    }catch (e) {
-      return next(e);
-    }
-  }
-  return next();*/
+UserSchema.pre("save", async function() {
+  await UserBeforeCreate(this)
 });
-
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = UserSchema;

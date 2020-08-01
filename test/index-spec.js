@@ -1,9 +1,7 @@
-import { firstTest } from "./first-test";
-
+const { firstTest } = require("./first-test");
 
 (async function() {
   try {
-    console.log("we got in here ____")
     await firstTest();
   } catch (e) {
     console.log(e)

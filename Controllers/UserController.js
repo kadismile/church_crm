@@ -1,35 +1,34 @@
+const mongoose = require('mongoose');
+const {errorHandler} = require("../utils/errors");
+const {prepareValidPhoneNumber} = require("../utils/helpers");
 const jwtSecret = require('../config/jwtConfig');
-const User = require('../Models/User');
-const user = require('../util/users');
-var passport = require('passport');
+const UserSchema = require('../Models/User');
+const User = mongoose.model('Users', UserSchema);
+const user = require('../methods/users');
 var jwt = require('jsonwebtoken');
 
-exports.user_create = async (req, res, next) => {
-
-  passport.authenticate('register', async (err, userData, info) => {
-    if (err) {
-      console.log(err);
+exports.userCreate = async (req, res, next) => {
+  
+  try {
+    const doc = req.body;
+    var validate = new User(doc);
+    var error = validate.validateSync();
+    if (error) {
+      res.status(406).json({
+        status: 'failed',
+        errors: error.errors
+      });
     }
-    if (info !== undefined) {
-      res.status(409).json({status: 'failed', message: info.message});
-    }
-    if (await user.findUserByEmail(req.body.email)) {
-      res.status(409).json({status: 'failed', message: `user with email '${req.body.email}' already exists`});
-    }
-    else {
-      try {
-        const data = {
-          name: req.body.name,
-          email: req.body.email,
-        };
-        await User.updateOne({_id: userData._id}, {$set: data});
-        res.status(200).json({status: 'Success', message: userData});
-      } catch (e) {
-        console.log(e);
-        res.status(500).json({status: 'Error', message: "An Error Occured"});
-      }
-    }
-  })(req, res, next);
+    doc.phoneNumber = prepareValidPhoneNumber(doc.phoneNumber, doc.address.countryCode, res);
+    const user = await User.create(doc);
+    res.status(201).json({
+      success: true,
+      user
+    })
+  } catch (e) {
+    console.log(`${e}`.red);
+    errorHandler(e, res);
+  }
 };
 
   exports.user_login = async(req, res, next) => {

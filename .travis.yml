@@ -1,0 +1,19 @@
+language: node_js
+node_js: 
+  - "stable"
+cache:
+  directories:
+    - "node_modules"
+install:
+  - npm install
+services:
+  - mongodb
+
+env:
+  global:
+  - NODE_ENV=test
+  - DB_CONNECTION=mongodb://localhost:27017/church_crm
+
+before_script:
+    - sleep 15
+    - mongo mydb_test --eval 'db.createUser({user:"kadismile",pwd:"111222",roles:["readWrite"]});'
