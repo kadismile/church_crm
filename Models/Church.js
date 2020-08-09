@@ -7,7 +7,7 @@ const addressSchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
-      return randomstring.generate();
+      return randomstring.generate(18);
     }
   },
   country: {
@@ -19,7 +19,7 @@ const addressSchema = mongoose.Schema({
   countryCode: {
     type: String,
   }
-});
+},{versionKey: false});
 
 
 const churchAccount = mongoose.Schema({
@@ -30,13 +30,13 @@ const churchAccount = mongoose.Schema({
       return 0
     }
   },
-});
+},{versionKey: false});
 
 const ChurchSchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
-      return randomstring.generate();
+      return randomstring.generate(18);
     }
   },
   email: {
@@ -80,7 +80,7 @@ const ChurchSchema = mongoose.Schema({
   },
   group: {
     type: String,
-    min: [6, 'password too short'],
+    min: [6, 'group too short'],
   },
   createdAt: {
     type: Date,
@@ -90,7 +90,7 @@ const ChurchSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
+},{versionKey: false});
 
 //this is the hook after insert
 ChurchSchema.post("save", async function(doc) {
@@ -100,4 +100,4 @@ ChurchSchema.post("save", async function(doc) {
 ChurchSchema.pre("save", async function() {
   await ChurchBeforeCreate(this)
 });
-module.exports = ChurchSchema;
+module.exports = mongoose.model('Church', ChurchSchema);

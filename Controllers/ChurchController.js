@@ -1,8 +1,6 @@
-const mongoose = require('mongoose');
 const {errorHandler} = require("../utils/errors");
 const {prepareValidPhoneNumber} = require("../utils/helpers");
-const ChurchSchema = require('../Models/Church');
-const Church = mongoose.model('Church', ChurchSchema);
+const Church = require('../Models/Church');
 const user = require('../methods/users');
 
 exports.churchCreate = async (req, res, next) => {

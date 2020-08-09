@@ -5,7 +5,7 @@ const categorySchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
-      return randomstring.generate();
+      return randomstring.generate(18);
     }
   },
   name: {
@@ -15,7 +15,7 @@ const categorySchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-});
+},{versionKey: false});
 
 module.exports = categorySchema;
 //module.exports = mongoose.model('Category', categorySchema);

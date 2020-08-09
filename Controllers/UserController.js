@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
 const {errorHandler} = require("../utils/errors");
 const {prepareValidPhoneNumber} = require("../utils/helpers");
-const jwtSecret = require('../config/jwtConfig');
-const UserSchema = require('../Models/User');
-const User = mongoose.model('Users', UserSchema);
+const User = require('../Models/User');
 const user = require('../methods/users');
-var jwt = require('jsonwebtoken');
 
 exports.userCreate = async (req, res, next) => {
   

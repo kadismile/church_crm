@@ -1,8 +1,4 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const UserSchema = require('../User');
-const User = mongoose.model('Users', UserSchema);
-
 
 exports.ChurchAfterUpdate = async (data, oldDoc, next) => {
   let newDoc = data.getUpdate().$set;
@@ -59,6 +55,7 @@ exports.ChurchBeforeCreate = async (data) => {
   data.group = data._id;
   
   //create User
-  await User.create(data);
+  await data.model('User').create(data);
+  
   return data
 };

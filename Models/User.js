@@ -7,7 +7,7 @@ const addressSchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
-      return randomstring.generate();
+      return randomstring.generate(18);
     }
   },
   country: {
@@ -19,14 +19,14 @@ const addressSchema = mongoose.Schema({
   countryCode: {
     type: String,
   }
-});
+},{versionKey: false});
 
 
 const UserSchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
-      return randomstring.generate();
+      return randomstring.generate(18);
     }
   },
   email: {
@@ -84,7 +84,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: [true, 'user Must be under a group']
   },
-});
+},{versionKey: false});
 
 //this is the hook after insert
 UserSchema.post("save", async function(doc) {
@@ -94,4 +94,4 @@ UserSchema.post("save", async function(doc) {
 UserSchema.pre("save", async function() {
   await UserBeforeCreate(this)
 });
-module.exports = UserSchema;
+module.exports = mongoose.model('User', UserSchema);

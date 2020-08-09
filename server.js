@@ -24,6 +24,7 @@ mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTo
 app.use('/', require('./routes/index'));
 app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/church', require('./routes/church'));
+app.use('/api/v1/webhook', require('./routes/webhook'));
 
 
 io.on('connection', (socket) => {
