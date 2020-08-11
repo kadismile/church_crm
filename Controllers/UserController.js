@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
 const {errorHandler} = require("../utils/errors");
 const {prepareValidPhoneNumber} = require("../utils/helpers");
-const jwtSecret = require('../config/jwtConfig');
-const UserSchema = require('../Models/User');
-const User = mongoose.model('Users', UserSchema);
+const User = require('../Models/User');
 const user = require('../methods/users');
-var jwt = require('jsonwebtoken');
 
 exports.userCreate = async (req, res, next) => {
   
@@ -22,6 +18,20 @@ exports.userCreate = async (req, res, next) => {
     doc.phoneNumber = prepareValidPhoneNumber(doc.phoneNumber, doc.address.countryCode, res);
     const user = await User.create(doc);
     res.status(201).json({
+      success: true,
+      user
+    })
+  } catch (e) {
+    console.log(`${e}`.red);
+    errorHandler(e, res);
+  }
+};
+
+exports.userGet = async (req, res, next) => {
+  try {
+    const doc = req.body;
+    const user = await User.findOne({ _id: doc._id });
+    res.status(200).json({
       success: true,
       user
     })

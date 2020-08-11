@@ -9,6 +9,7 @@ const io = socketIo(server);
 const mongoose = require('mongoose');
 const passport = require('passport');
 const colors = require('colors');
+const connectDb = require('./config/db');
 
 require('./config/passportConfig'); //very important to use passport
 app.use(express.json());
@@ -18,12 +19,12 @@ app.use(passport.session());
 
 //connect to the database
 
-mongoose.connect(process.env.DB_CONNECTION,{ useNewUrlParser: true, useUnifiedTopology: true  },
-  ()=> console.log("Connected to the data Base".rainbow));
+connectDb();
 
 app.use('/', require('./routes/index'));
 app.use('/api/v1/users', require('./routes/users'));
 app.use('/api/v1/church', require('./routes/church'));
+app.use('/api/v1/webhook', require('./routes/webhook'));
 
 
 io.on('connection', (socket) => {
@@ -37,4 +38,4 @@ const port = 5000;
 server.listen(port, () => console.log(`server started on port ${port}`.bgCyan));
 
 
-
+module.exports = server;
