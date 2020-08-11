@@ -16,10 +16,10 @@ exports.churchCreate = async (req, res, next) => {
       });
     }
     doc.phoneNumber = prepareValidPhoneNumber(doc.phoneNumber, doc.address.countryCode, res);
-    const user = await Church.create(doc);
+    const church = await Church.create(doc);
     res.status(201).json({
       success: true,
-      user
+      data: church
     })
   } catch (e) {
     console.log(`${e}`.red);

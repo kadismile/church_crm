@@ -1,8 +1,8 @@
-const { firstTest } = require("./first-test");
+const { churchTest } = require("./church-test.js");
 
 (async function() {
   try {
-    await firstTest();
+    await churchTest();
   } catch (e) {
     console.log(e)
   }

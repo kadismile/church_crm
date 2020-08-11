@@ -55,6 +55,7 @@ exports.ChurchBeforeCreate = async (data) => {
   data.group = data._id;
   
   //create User
+  console.log("userTHINHS____")
   await data.model('User').create(data);
   
   return data
