@@ -34,15 +34,17 @@ exports.UserAfterUpdate = async (data,oldDoc, next) => {
     return next();
 };
 
-exports.UserBeforeCreate = async (data) => {
+exports.UserBeforeSave = async (data) => {
     if (!data.isModified('password')) {
       next();
     }
+    
     const salt = await bcrypt.genSalt(10);
     data.password = await bcrypt.hash(data.password, salt);
     
     //check to see if its a church and User created
     if (!data.superAdmin) {
+      //assigning a group to the new user created
       const church = await data.model('Church').findById(data.group);
       if (!church) throw new Error("Invalid Group provided");
       data.group = church._id;

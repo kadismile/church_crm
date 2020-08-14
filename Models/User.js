@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const randomstring = require("randomstring");
-const {UserBeforeCreate} = require('./hooks/user_hooks');
+const {UserBeforeSave} = require('./hooks/user_hooks');
 const categorySchema = require('../Models/Category');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const addressSchema = mongoose.Schema({
   _id: {
@@ -51,6 +53,7 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String,
+    select: false, //dont show the password
     min: [6, 'password too short'],
   },
   role: {
@@ -92,6 +95,16 @@ UserSchema.post("save", async function(doc) {
 });
 
 UserSchema.pre("save", async function() {
-  await UserBeforeCreate(this)
+  await UserBeforeSave(this)
 });
+
+UserSchema.methods.matchPassword = async function(enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+UserSchema.methods.getSignedJwtToken = function() {
+  return jwt.sign({ _id: this._id, roles: this.role }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE
+  });
+};
 module.exports = mongoose.model('User', UserSchema);

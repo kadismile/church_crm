@@ -3,7 +3,6 @@ const PhoneNumberUtil = require('google-libphonenumber').PhoneNumberUtil.getInst
 const {errorHandler} = require("../utils/errors");
 
 module.exports.prepareValidPhoneNumber = (phoneNumber, countryCode, res) =>{
-  console.log(countryCode);
   if (!isValidPhoneNumber(phoneNumber, countryCode)) {
     errorHandler({ message: `An invalid phone number ${phoneNumber} was provided`, statusCode: 406 }, res)
   }
