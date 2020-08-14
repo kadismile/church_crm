@@ -4,7 +4,6 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongod = new MongoMemoryServer();
 const env = process.env.NODE_ENV;
 
-console.log("ENV ", env);
 
 let connectDB;
 if (env === 'development') {

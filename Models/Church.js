@@ -55,7 +55,9 @@ const ChurchSchema = mongoose.Schema({
   },
   password: {
     type: String,
+    select: false, //dont show the password
     min: [6, 'password too short'],
+    
   },
   role: {
     type : Array ,

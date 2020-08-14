@@ -50,13 +50,16 @@ exports.ChurchAfterUpdate = async (data, oldDoc, next) => {
 };
 
 exports.ChurchBeforeCreate = async (data) => {
+  
+  let originalDoc = {...data._doc};
+  
   const salt = await bcrypt.genSalt(10);
   data.password = await bcrypt.hash(data.password, salt);
   data.group = data._id;
+  originalDoc.group = data._id;
   
   //create User
-  console.log("userTHINHS____")
-  await data.model('User').create(data);
+  await data.model('User').create(originalDoc);
   
   return data
 };
