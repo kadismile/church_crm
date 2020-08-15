@@ -1,7 +1,7 @@
 var router = require('express').Router();
-const WebHookController = require('../Controllers/WebHookController');
+const webHookController = require('../Controllers/webHookController');
 
 
-router.post('/test', WebHookController.webhooktest);
+router.post('/test', webHookController.webhooktest);
 
 module.exports = router;

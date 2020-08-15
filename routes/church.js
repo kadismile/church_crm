@@ -1,7 +1,7 @@
 var router = require('express').Router();
-const ChurchController = require('../Controllers/ChurchController');
+const churchController = require('../Controllers/churchController');
 
 
-router.post('/create', ChurchController.churchCreate);
+//router.post('/create', churchController.churchCreate);
 
 module.exports = router;
