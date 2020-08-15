@@ -37,7 +37,7 @@ exports.churchTest = () =>
       it("Creates a Church", done => {
         chai
             .request(server)
-            .post("/api/v1/church/create")
+            .post("/api/v1/auth/church/register")
             .send(church)
             .then( async (res) => {
               chai.expect(res.status).to.eql(201); // expression which will be true if response status equal to 201
