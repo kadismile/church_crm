@@ -6,9 +6,11 @@ cache:
     - "node_modules"
 install:
   - npm install
+  - make travis-install
+
 services:
   - mongodb
-
+script: make travis-run
 env:
   global:
   - NODE_ENV=test
@@ -19,4 +21,3 @@ env:
 before_script:
     - sleep 15
     - mongo mydb_test --eval 'db.createUser({user:"kadismile",pwd:"111222",roles:["readWrite"]});'
-    - sudo redis-server /etc/redis/redis.conf --port 6380 --requirepass 'secret'
