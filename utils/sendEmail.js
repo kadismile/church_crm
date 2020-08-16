@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
+const kue = require('kue');
+const queue = kue.createQueue();
 
-const sendEmail = async options => {
+
+const sendEmail = async () => {
   try{
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -12,18 +15,20 @@ const sendEmail = async options => {
         pass: process.env.GMAIL_PASSWORD
       }
     });
-  
-    const message = {
-      from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
-      to: options.email,
-      subject: options.subject,
-      text: options.message,
-      //html:""
-    };
-  
-    const info = await transporter.sendMail(message);
-  
-    console.log('Message sent: %s', info.messageId);
+    
+    queue.process('forgotEmailPasswordJob',  function(job, done){
+      const emailData = job.data;
+      const message = {
+        from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+        to: emailData.email,
+        subject: emailData.subject,
+        text: emailData.message,
+        //html:""
+      };
+      transporter.sendMail(message);
+      done()
+    });
+    
   } catch (e) {
     console.log("error _____", e)
   }
@@ -31,12 +36,3 @@ const sendEmail = async options => {
 };
 
 module.exports = sendEmail;
-
-
-var client = nodemailer.createTransport({
-  service: 'SendGrid',
-  auth: {
-    user: 'SENDGRID_USERNAME',
-    pass: 'SENDGRID_PASSWORD'
-  }
-});
