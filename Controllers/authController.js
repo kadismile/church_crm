@@ -1,7 +1,10 @@
+const crypto = require('crypto');
 const {errorHandler} = require("../utils/errors");
 const User = require('../Models/User');
 const Church = require('../Models/Church');
 const {prepareValidPhoneNumber} = require("../utils/helpers");
+const sendEmail = require('../utils/sendEmail');
+const ErrorResponse = require('../utils/errorResponse');
 
 
 exports.registerChurch = async (req, res) => {
@@ -97,11 +100,75 @@ exports.authLogin = async (req, res) => {
   }
 };
 
+exports.forgotPassword = async (req, res, next) => {
+  let user;
+  try {
+    user = await User.findOne({ email: req.body.email });
+    
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        data: "There is no user with that email"
+      });
+    }
+    
+    const resetToken = user.getResetPasswordToken();
+    await user.save({ validateBeforeSave: false });
+    // Create reset url
+    const resetUrl = `${req.protocol}://${req.get(
+        'host'
+    )}/api/v1/auth/resetpassword/${resetToken}`;
+  
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+    await sendEmail({
+      email: user.email,
+      subject: 'Password reset token',
+      message: message
+    });
+    res.status(200).json({ success: true, data: 'Email sent' });
+  } catch (e) {
+    
+    console.log("error", e)
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+  
+    await user.save({ validateBeforeSave: false });
+  
+    return new ErrorResponse('Email could not be sent', 500);
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  // Get hashed token
+  const resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(req.params.resettoken)
+      .digest('hex');
+  
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+  
+  if (!user) {
+    return next(new ErrorResponse('Invalid token', 400));
+  }
+  
+  // Set new password
+  let update = {};
+  update.password = req.body.password;
+  update.resetPasswordToken = "";
+  update.resetPasswordExpire = "";
+  
+  await User.findOneAndUpdate({ resetPasswordToken, ...update });
+  
+  sendTokenResponse(user, 200, res);
+};
+
 
 const sendTokenResponse = async(user, statusCode, res) => {
   // Create token
   const token = await user.getSignedJwtToken();
-  
   const options = {
     expires: new Date(
         Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
@@ -118,6 +185,5 @@ const sendTokenResponse = async(user, statusCode, res) => {
       .json({
         success: true,
         token,
-        user
       });
 };

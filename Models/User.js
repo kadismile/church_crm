@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const randomstring = require("randomstring");
-const {UserBeforeSave} = require('./hooks/user_hooks');
+const {UserBeforeSave, UserAfterUpdate} = require('./hooks/user_hooks');
 const categorySchema = require('../Models/Category');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require('crypto');
 
 const addressSchema = mongoose.Schema({
   _id: {
@@ -56,6 +57,13 @@ const UserSchema = mongoose.Schema({
     select: false, //dont show the password
     min: [6, 'password too short'],
   },
+  resetPasswordToken: {
+    type: String,
+    optional: true,
+  },
+  resetPasswordExpire: {
+    type: Date
+  },
   role: {
     type : Array ,
     default : [],
@@ -90,8 +98,8 @@ const UserSchema = mongoose.Schema({
 },{versionKey: false});
 
 //this is the hook after insert
-UserSchema.post("save", async function(doc) {
-
+UserSchema.pre("findOneAndUpdate", async function(doc, next) {
+  await UserAfterUpdate(this, next)
 });
 
 UserSchema.pre("save", async function() {
@@ -107,4 +115,21 @@ UserSchema.methods.getSignedJwtToken = function() {
     expiresIn: process.env.JWT_EXPIRE
   });
 };
+
+UserSchema.methods.getResetPasswordToken = function() {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString('hex');
+  
+  // Hash token and set to resetPasswordToken field
+  this.resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+  
+  // Set expire
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  
+  return resetToken;
+};
+
 module.exports = mongoose.model('User', UserSchema);
