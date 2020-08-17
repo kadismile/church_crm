@@ -22,9 +22,13 @@ exports.registerChurch = async (req, res) => {
     }
     doc.phoneNumber = prepareValidPhoneNumber(doc.phoneNumber, doc.address.countryCode, res);
     const church = await Church.create(doc);
+    
+    let churchData = {...church._doc};
+    delete churchData.password;
+    
     res.status(201).json({
       success: true,
-      data: church
+      data: churchData
     })
   } catch (e) {
     console.log(`${e}`.red);
@@ -46,7 +50,15 @@ exports.registerUser = async (req, res) => {
     }
     doc.phoneNumber = prepareValidPhoneNumber(doc.phoneNumber, doc.address.countryCode, res);
     const user = await User.create(doc);
-    sendTokenResponse(user, 201, res)
+    
+    let userData = {...user._doc};
+    delete userData.password;
+    
+    res.status(200).json({
+      status: 'Success',
+      data: userData
+    });
+    
   } catch (e) {
     console.log(`${e}`.red);
     errorHandler(e, res);
@@ -195,8 +207,3 @@ const sendTokenResponse = async(user, statusCode, res) => {
         token,
       });
 };
-
-const  queEmail = async (title,to,subject,message, done) =>{
-  await queue.create('email', {title, to, subject, message});
-  done();
-}

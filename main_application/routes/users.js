@@ -1,7 +1,9 @@
-var router = require('express').Router();
+const router = require('express').Router();
+const { protect, authorize } = require('../middleware/auth');
 const userController = require('../controllers/userController');
+const permission =  require("../config/permissions");
 
 //router.post('/create', userController.userCreate);
-router.post('/get', userController.userGet);
+router.post('/get', protect, authorize(permission.USER_PERMISSION), userController.userGet);
 
 module.exports = router;

@@ -1,53 +1,49 @@
 const jwt = require('jsonwebtoken');
-const asyncHandler = require('./async');
-const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
+const {errorHandler} = require("../utils/errors");
 
 // Protect routes
-exports.protect = asyncHandler(async (req, res, next) => {
-  let token;
-
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    // Set token from Bearer token in header
-    token = req.headers.authorization.split(' ')[1];
-    // Set token from cookie
-  }
-  // else if (req.cookies.token) {
-  //   token = req.cookies.token;
-  // }
-
-  // Make sure token exists
-  if (!token) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
-  }
-
+exports.protect = async (req, res, next) => {
   try {
+    let token;
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    // Make sure token exists
+    if (!token) {
+      return next(errorHandler('Not authorized to access this route', res));
+    }
+    
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.id);
+    req.user = await User.findOne({ _id: decoded._id, group: decoded.group});
 
     next();
   } catch (err) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+    return next(errorHandler(err, res));
   }
-});
+};
 
 
 // Grant access to specific roles
-exports.authorize = (...roles) => {
+exports.authorize = (roles) => {
+  
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    if (!req.user) return;
+    let avaRoles = roles.filter((value)=> (req.user.role).includes(value));
+    if (avaRoles.length !== 0) {
+      next();
+    } else {
       return next(
-        new ErrorResponse(
-          `User role ${req.user.role} is not authorized to access this route`,
-          403
+          errorHandler(
+          `Not authorized to access this route`,
+          res
         )
       );
     }
-    next();
   };
 };

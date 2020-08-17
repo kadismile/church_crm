@@ -111,7 +111,7 @@ UserSchema.methods.matchPassword = async function(enteredPassword) {
 };
 
 UserSchema.methods.getSignedJwtToken = function() {
-  return jwt.sign({ _id: this._id, roles: this.role }, process.env.JWT_SECRET, {
+  return jwt.sign({ _id: this._id, roles: this.role, group:this.group }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE
   });
 };
