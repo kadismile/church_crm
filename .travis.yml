@@ -3,7 +3,7 @@ node_js:
   - "stable"
 cache:
   directories:
-    - "main_application/node_modules"
+    - "node_modules"
 install:
   - npm install
 services:
@@ -17,5 +17,6 @@ env:
   - JWT_EXPIRE=3600
 
 before_script:
+    - cd main_application
     - sleep 15
     - mongo mydb_test --eval 'db.createUser({user:"kadismile",pwd:"111222",roles:["readWrite"]});'
