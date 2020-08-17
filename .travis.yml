@@ -8,7 +8,7 @@ install:
   - npm install
 services:
   - mongodb
-
+  - redis-server
 env:
   global:
   - NODE_ENV=test

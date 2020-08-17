@@ -5,6 +5,8 @@ const Church = require('../Models/Church');
 const {prepareValidPhoneNumber} = require("../utils/helpers");
 const sendEmail = require('../utils/sendEmail');
 const ErrorResponse = require('../utils/errorResponse');
+const kue = require('kue');
+const queue = kue.createQueue();
 
 
 exports.registerChurch = async (req, res) => {
@@ -120,11 +122,15 @@ exports.forgotPassword = async (req, res, next) => {
     )}/api/v1/auth/resetpassword/${resetToken}`;
   
     const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
-    await sendEmail({
-      email: user.email,
-      subject: 'Password reset token',
-      message: message
-    });
+    queue
+        .create("forgotEmailPasswordJob", {
+          email: user.email,
+          subject: 'Password reset token',
+          message: message
+        })
+        .priority("high")
+        .save();
+        sendEmail();
     res.status(200).json({ success: true, data: 'Email sent' });
   } catch (e) {
     
@@ -187,3 +193,8 @@ const sendTokenResponse = async(user, statusCode, res) => {
         token,
       });
 };
+
+const  queEmail = async (title,to,subject,message, done) =>{
+  await queue.create('email', {title, to, subject, message});
+  done();
+}
