@@ -2,7 +2,9 @@
 const ErrorResponse = require('../utils/errorResponse');
 
 module.exports.errorHandler = (err, res) => {
+    
     let error = {...err};
+    console.log("ERROR ___ ", error)
     error.message = err.message;
     if (err.type === 'entity.parse.failed') {
         const message = `Wrong Entity as been Parsed`;
