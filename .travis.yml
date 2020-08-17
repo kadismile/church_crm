@@ -14,7 +14,7 @@ env:
   - NODE_ENV=test
   - DB_CONNECTION=mongodb://localhost:27017/church_crm
   - JWT_SECRET=$2a$10$6Bnv6xUyEX7FrAT3Lhp7O.ZuQnP8Lc1dzt9rscG4XohRpz
-  - JWT_EXPIRE=3601
+  - JWT_EXPIRE=3600
 
 before_script:
     - sleep 15
