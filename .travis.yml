@@ -3,7 +3,7 @@ node_js:
   - "stable"
 cache:
   directories:
-    - "node_modules"
+    - "main_application/node_modules"
 install:
   - npm install
 services:
