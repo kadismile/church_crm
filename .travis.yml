@@ -4,8 +4,8 @@ node_js:
 cache:
   directories:
     - "node_modules"
-install:
-  - npm install
+#install:
+  #- npm install
 services:
   - mongodb
   - redis-server
@@ -18,5 +18,6 @@ env:
 
 before_script:
     - cd main_application
+    - npm install
     - sleep 15
     - mongo mydb_test --eval 'db.createUser({user:"kadismile",pwd:"111222",roles:["readWrite"]});'
