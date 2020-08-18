@@ -24,7 +24,10 @@ let church = {
     "countryCode": "NG"
   },
   "password": "111222",
-  "role": ["superAdmin"],
+  "roles": ["superAdmin"],
+  "maritalStatus": "married",
+  "dob": "1989-05-10 10:28:12.240Z",
+  "gender": "male",
   "category": {
     "name": "superAdmin"
   },
