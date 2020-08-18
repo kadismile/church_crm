@@ -24,7 +24,10 @@ let church = {
     "countryCode": "NG"
   },
   "password": "111222",
-  "role": ["superAdmin"],
+  "roles": ["superAdmin"],
+  "maritalStatus": "married",
+  "dob": "1989-05-10 10:28:12.240Z",
+  "gender": "male",
   "category": {
     "name": "superAdmin"
   },
@@ -41,7 +44,6 @@ exports.churchTest = () =>
             .send(church)
             .then( async (res) => {
               chai.expect(res.status).to.eql(201); // expression which will be true if response status equal to 201
-              delete church.password;
               chai.assert.exists(res.body.data._id); // assertion expression which will be true if id exists
               done();
             })
@@ -49,23 +51,6 @@ exports.churchTest = () =>
       });
   
       it("Gets Auth token", done => {
-        let church = {
-          "_id": "K7NXaUYI99ZALlMPKg",
-          "email": "churchofgod@yahoo.com",
-          "name": "Church of God",
-          "phoneNumber": "07067875047",
-          "address": {
-            "country": "Nigeria",
-            "address": "Area 2 Garki Abuja",
-            "countryCode": "NG"
-          },
-          "password": "111222",
-          "role": ["superAdmin"],
-          "category": {
-            "name": "superAdmin"
-          },
-          "superAdmin": true
-        };
         const { email, password } = church;
         chai
             .request(server)

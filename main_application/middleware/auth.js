@@ -20,7 +20,7 @@ exports.protect = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findOne({ _id: decoded._id, group: decoded.group});
+    req.user = await User.findOne({ _id: decoded._id, church_group: decoded.church_group});
 
     next();
   } catch (err) {
@@ -34,7 +34,7 @@ exports.authorize = (roles) => {
   
   return (req, res, next) => {
     if (!req.user) return;
-    let avaRoles = roles.filter((value)=> (req.user.role).includes(value));
+    let avaRoles = roles.filter((value)=> (req.user.roles).includes(value));
     if (avaRoles.length !== 0) {
       next();
     } else {
