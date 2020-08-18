@@ -48,6 +48,20 @@ const UserSchema = mongoose.Schema({
     type: String,
     unique: true
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    required: [true, 'Please Add Gender']
+  },
+  dob: {
+    type: Date,
+    required: [true, 'Please Add Date of birth']
+  },
+  maritalStatus: {
+    type: String,
+    enum: ['married', 'single'],
+    required: [true, 'Please Add marital status']
+  },
   address: {
     type : [addressSchema],
     required: [true, 'Please add an address']
@@ -64,7 +78,7 @@ const UserSchema = mongoose.Schema({
   resetPasswordExpire: {
     type: Date
   },
-  role: {
+  roles: {
     type : Array ,
     default : [],
     optional: true,
@@ -91,7 +105,7 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  group: {
+  church_group: {
     type: String,
     required: [true, 'user Must be under a group']
   },
@@ -111,7 +125,7 @@ UserSchema.methods.matchPassword = async function(enteredPassword) {
 };
 
 UserSchema.methods.getSignedJwtToken = function() {
-  return jwt.sign({ _id: this._id, roles: this.role, group:this.group }, process.env.JWT_SECRET, {
+  return jwt.sign({ _id: this._id, roles: this.roles, church_group:this.church_group }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE
   });
 };

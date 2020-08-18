@@ -53,13 +53,27 @@ const ChurchSchema = mongoose.Schema({
   address: {
     type : [addressSchema]
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    required: [true, 'Please Add Gender']
+  },
+  dob: {
+    type: Date,
+    required: [true, 'Please Add Date of birth']
+  },
+  maritalStatus: {
+    type: String,
+    enum: ['married', 'single'],
+    required: [true, 'Please Add marital status']
+  },
   password: {
     type: String,
     select: false, //dont show the password
     min: [6, 'password too short'],
     
   },
-  role: {
+  roles: {
     type : Array ,
     default : [],
     optional: true,
@@ -80,7 +94,7 @@ const ChurchSchema = mongoose.Schema({
   account: {
     type: {churchAccount},
   },
-  group: {
+  church_group: {
     type: String,
     min: [6, 'group too short'],
   },

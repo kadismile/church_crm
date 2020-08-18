@@ -55,8 +55,8 @@ exports.ChurchBeforeCreate = async (data) => {
   
   const salt = await bcrypt.genSalt(10);
   data.password = await bcrypt.hash(data.password, salt);
-  data.group = data._id;
-  originalDoc.group = data._id;
+  data.church_group = data._id;
+  originalDoc.church_group = data._id;
   
   //create User
   await data.model('User').create(originalDoc);

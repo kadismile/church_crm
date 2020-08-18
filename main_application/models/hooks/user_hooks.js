@@ -61,9 +61,9 @@ exports.UserBeforeSave = async (data) => {
     //check to see if its a church and User created
     if (!data.superAdmin) {
       //assigning a group to the new user created
-      const church = await data.model('Church').findById(data.group);
+      const church = await data.model('Church').findById(data.church_group);
       if (!church) throw new Error("Invalid Group provided");
-      data.group = church._id;
+      data.church_group = church._id;
     }
     
     
