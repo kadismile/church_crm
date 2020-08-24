@@ -84,6 +84,7 @@ exports.authLogin = async (req, res) => {
 
   if (!email || !password) {
     res.status(403).json({
+      type: "login",
       success: false,
       data: "Please provide an email and password"
     });
@@ -93,7 +94,8 @@ exports.authLogin = async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
     if (user === null) {
       res.status(401).json({
-        success: false,
+        type: "login",
+        statusCode: 401,
         data: "Invalid credentials"
       });
     }
@@ -102,6 +104,7 @@ exports.authLogin = async (req, res) => {
     
     if (!isMatch) {
       res.status(401).json({
+        type: "login",
         success: false,
         data: "Invalid credentials"
       });
