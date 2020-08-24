@@ -1,7 +1,9 @@
 import React from 'react'
-
+import {useAuth} from '../context/auth-context'
 
 function Header() {
+  let {user, logout} = useAuth();
+  user = user[0];
   return (
       <header id="page-topbar">
         <div className="navbar-header">
@@ -15,28 +17,28 @@ function Header() {
             <div className="dropdown d-none d-sm-inline-block">
               <button type="button" className="btn header-item waves-effect" id="page-header-user-dropdown"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i className="mdi mdi-plus"></i> Create New
+                <i className="mdi mdi-plus"></i> Add New
                 <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
               </button>
               <div className="dropdown-menu">
               
            
-                <a href="#" className="dropdown-item notify-item">
+                <a href="/#" className="dropdown-item notify-item">
                   Application
                 </a>
               
                
-                <a href="#" className="dropdown-item notify-item">
+                <a href="/#" className="dropdown-item notify-item">
                   Software
                 </a>
               
                 
-                <a href="#" className="dropdown-item notify-item">
+                <a href="/#" className="dropdown-item notify-item">
                   EMS System
                 </a>
               
              
-                <a href="#" className="dropdown-item notify-item">
+                <a href="/#" className="dropdown-item notify-item">
                   CRM App
                 </a>
               </div>
@@ -91,7 +93,7 @@ function Header() {
                   </div>
                 </div>
                 <div data-simplebar style={{maxHeight: "230px"}}>
-                  <a href="#" className="text-reset notification-item">
+                  <a href="/#" className="text-reset notification-item">
                     <div className="media">
                       <img src="./images/users/avatar-2.jpg"
                            className="mr-3 rounded-circle avatar-xs" alt="user-pic"/>
@@ -103,7 +105,7 @@ function Header() {
                         </div>
                     </div>
                   </a>
-                  <a href="#" className="text-reset notification-item">
+                  <a href="/#" className="text-reset notification-item">
                     <div className="media">
                       <div className="avatar-xs mr-3">
                                             <span className="avatar-title bg-success rounded-circle">
@@ -119,7 +121,7 @@ function Header() {
                       </div>
                     </div>
                   </a>
-                  <a href="#" className="text-reset notification-item">
+                  <a href="/#" className="text-reset notification-item">
                     <div className="media">
                       <img src="./images/users/avatar-3.jpg"
                            className="mr-3 rounded-circle avatar-xs" alt="user-pic"/>
@@ -133,7 +135,7 @@ function Header() {
                   </a>
                 </div>
                 <div className="p-2 border-top">
-                  <a className="btn btn-sm btn-light btn-block text-center" href="#">
+                  <a className="btn btn-sm btn-light btn-block text-center" href="/#">
                     <i className="mdi mdi-arrow-down-circle mr-1"></i> Load More..
                   </a>
                 </div>
@@ -145,34 +147,18 @@ function Header() {
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img className="rounded-circle header-profile-user" src="./images/users/avatar-3.jpg"
                      alt="Header Avatar"/>
-                  <span className="d-none d-sm-inline-block ml-1">Jamie D.</span>
+                  <span className="d-none d-sm-inline-block ml-1">{user.name}</span>
                   <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
               </button>
               <div className="dropdown-menu dropdown-menu-right">
                 <a className="dropdown-item d-flex align-items-center justify-content-between"
-                   href="#">
-                  <span>Inbox</span>
-                  <span>
-                                    <span className="badge badge-pill badge-info">3</span>
-                                </span>
-                </a>
-                <a className="dropdown-item d-flex align-items-center justify-content-between"
-                   href="#">
-                  <span>Profile</span>
-                  <span>
-                                    <span className="badge badge-pill badge-warning">1</span>
-                                </span>
-                </a>
-                <a className="dropdown-item d-flex align-items-center justify-content-between"
-                   href="#">
+                   href="/#">
                   Settings
                 </a>
+                
                 <a className="dropdown-item d-flex align-items-center justify-content-between"
-                   href="#">
-                  <span>Lock Account</span>
-                </a>
-                <a className="dropdown-item d-flex align-items-center justify-content-between"
-                   href="#">
+                   href="/#"
+                   onClick={()=> {logout()}}>
                   <span>Log Out</span>
                 </a>
               </div>

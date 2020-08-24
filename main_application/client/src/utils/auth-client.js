@@ -1,9 +1,9 @@
 import {client, localStorageKey} from './api-client'
 import * as url from "../utils/constants";
 
-function handleUserResponse(data) {
-  window.localStorage.setItem(localStorageKey, JSON.stringify(data));
-  return data
+async function handleUserResponse(data) {
+  window.localStorage.setItem(localStorageKey, data.token);
+  return  [await getUser()];
 }
 
 function login({email, password}) {
@@ -16,11 +16,18 @@ function register({username, password}) {
   )
 }
 
+function getUser() {
+  const token = getToken();
+  if (!token) {
+    return Promise.resolve(null)
+  }
+  return client(`${url.BASE_URL}/users/get`, {data: {token}}).then(data => data.user)
+}
+
 function getToken() {
   let token = window.localStorage.getItem(localStorageKey);
   if (token) {
-    token = JSON.parse(token);
-    return token.apiKey
+    return token
   }
   return null
 }
@@ -31,5 +38,5 @@ function isLoggedIn() {
 }
 
 
-export {login, register, getToken, isLoggedIn}
+export {login, register, getToken, isLoggedIn, getUser}
 export {logout} from './api-client'

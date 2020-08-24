@@ -1,5 +1,7 @@
 import {queryCache} from 'react-query'
+import toastr from "toastr";
 const localStorageKey = process.env.REACT_APP_APP_NAME;
+
 
 async function client(
   endpoint,
@@ -14,6 +16,7 @@ async function client(
       ...customHeaders,
     }
   } else {
+    
     headers = {
       Authorization: token ? `Bearer ${token}` : undefined,
       'Content-Type': data ? 'application/json' : undefined,
@@ -26,7 +29,7 @@ async function client(
     headers: customConfig.customHeaders ? customConfig.customHeaders : headers,
   };
   
-
+  
   return window
     .fetch(`${endpoint}`, config)
     .then(async response => {
@@ -34,9 +37,16 @@ async function client(
       if (response.ok) {
         return data
       } else {
+        
+        if (data.type === "login") {
+          toastr.error(data.data);
+        }
         return Promise.reject(data)
       }
-    })
+    }).catch((err)=>{
+        logout();
+        window.location.replace("/");
+      })
 }
 
 function logout() {

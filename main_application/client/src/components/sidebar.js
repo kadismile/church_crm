@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link } from 'react-router-dom'
 function SideBar() {
   return (
       <>
@@ -8,9 +7,11 @@ function SideBar() {
           <div data-simplebar className="h-100">
       
             <div className="navbar-brand-box">
-              <a href="index.html" className="logo">
-                <img src="./images/logo-light.png"/>
-              </a>
+              <br/>
+              <h5>
+                <a href="/" style={{color: "white"}}>CHURCH ADMIN</a>
+              </h5>
+             
             </div>
       
             
@@ -38,7 +39,7 @@ function SideBar() {
                 </li>
   
                 <li>
-                  <a href="#" className="has-arrow waves-effect"><i
+                  <a href="/#" className="has-arrow waves-effect"><i
                       className="bx bx-pound"></i><span>Accounting</span></a>
                   <ul className="sub-menu" aria-expanded="false">
                     <li><a href="ui-buttons.html">Buttons</a></li>
@@ -49,7 +50,7 @@ function SideBar() {
                 </li>
   
                 <li>
-                  <a href="#" className="has-arrow waves-effect"><i
+                  <a href="/#" className="has-arrow waves-effect"><i
                       className="bx bx-map-alt"></i><span>Maps</span></a>
                   <ul className="sub-menu" aria-expanded="false">
                     <li><a href="maps-google.html">Google Maps</a></li>
@@ -66,7 +67,7 @@ function SideBar() {
   
   
                 <li>
-                  <a href="#" className="has-arrow waves-effect"><i
+                  <a href="/#" className="has-arrow waves-effect"><i
                       className="bx bx-cog"></i><span>Settings</span></a>
                   <ul className="sub-menu" aria-expanded="false">
                     <li><a href="ui-buttons.html">User</a></li>

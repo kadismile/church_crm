@@ -1,6 +1,6 @@
 /** @jsx jsx */
 /** @jsxFrag React.Fragment */
-import React, {useEffect} from 'react'
+//import React, {useEffect} from 'react'
 import {jsx} from '@emotion/core'
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
@@ -29,24 +29,13 @@ function ErrorFallback({error}) {
 function AuthenticatedApp() {
   return (
       // eslint-disable-next-line no-undef
-    <>
+    <div>
        <Header/>
       <SideBar/>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
        <AppRoutes/>
       </ErrorBoundary>
-    </>
-  )
-}
-
-
-function Nav(params) {
-  return (
-      <ul>
-        <li> Home</li>
-        <li> About </li>
-        <li> Contact </li>
-      </ul>
+    </div>
   )
 }
 
