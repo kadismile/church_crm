@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const randomstring = require("randomstring");
 const {UserBeforeSave, UserAfterUpdate} = require('./hooks/user_hooks');
-const categorySchema = require('.//Category');
+const categorySchema = require('./Category');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
@@ -84,8 +84,9 @@ const UserSchema = mongoose.Schema({
     optional: true,
   },
   category: {
-    type : [categorySchema],
-    required: [true, 'Please add a category']
+    type : Array ,
+    default : [],
+    optional: true,
   },
   history: {
     type: Array,

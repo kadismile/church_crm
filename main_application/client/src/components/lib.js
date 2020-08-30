@@ -50,7 +50,7 @@ function FullPageSpinner() {
             alignItems: 'center',
           }}
       >
-        <Spinner />
+        <div className="spinner-border avatar-lg text-primary m-2" role="status"></div>
       </div>
   )
 }
