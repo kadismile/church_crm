@@ -4,7 +4,7 @@ function Home() {
   return (
       <div className="main-content">
       
-       {/* <div className="page-content">
+        <div className="page-content">
           <div className="container-fluid">
           
           
@@ -93,7 +93,7 @@ function Home() {
                     </div>
                     <h4 className="card-title d-inline-block">Daily Sales</h4>
                   
-                    <div id="morris-donut-example" className="morris-chart" style="height: 260px;"></div>
+                    <div id="morris-donut-example" className="morris-chart" style={{height: "260px"}}></div>
                   
                     <div className="row text-center mt-4">
                       <div className="col-6">
@@ -128,7 +128,7 @@ function Home() {
                     </div>
                     <h4 className="card-title d-inline-block">Statistics</h4>
                   
-                    <div id="morris-bar-example" className="morris-chart" style="height: 260px;"></div>
+                    <div id="morris-bar-example" className="morris-chart" style={{height: "260px"}}></div>
                   
                     <div className="row text-center mt-4">
                       <div className="col-6">
@@ -162,7 +162,7 @@ function Home() {
                     </div>
                     <h4 className="card-title d-inline-block">Total Revenue</h4>
                   
-                    <div id="morris-line-example" className="morris-chart" style="height: 260px;"></div>
+                    <div id="morris-line-example" className="morris-chart" style={{height: "260px"}}></div>
                   
                     <div className="row text-center mt-4">
                       <div className="col-6">
@@ -222,11 +222,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Mobile</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="85"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:85%"></div>
+                                   style={{width:"85%"}}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 1200.00</td>
@@ -238,11 +238,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Tablet</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="72"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:72%"></div>
+                                   style={{width:"72%"}}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 1190.00</td>
@@ -254,11 +254,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Electronics</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="43"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:43%"></div>
+                                   style={{width: "43%"}}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 999.00</td>
@@ -270,11 +270,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Cosmetics</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="37"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:37%"></div>
+                                   style={{ width:"37%" }}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 1150.00</td>
@@ -286,11 +286,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Appliences</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="82"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:82%"></div>
+                                   style={{width:"82%"}}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 1180.00</td>
@@ -302,11 +302,11 @@ function Home() {
                             <span className="badge badge-soft-success p-2">Mobile</span>
                           </td>
                           <td>
-                            <div className="progress" style="height: 6px;">
+                            <div className="progress" style={{height: "6px"}}>
                               <div className="progress-bar progress-bar-striped bg-secondary"
                                    role="progressbar" aria-valuenow="36"
                                    aria-valuemin="20" aria-valuemax="100"
-                                   style="width:36%"></div>
+                                   style={{width:"36%"}}></div>
                             </div>
                           </td>
                           <td className="text-truncate">$ 1180.00</td>
@@ -473,7 +473,7 @@ function Home() {
         
           </div>
       
-        </div>*/}
+        </div>
       
         {/*<footer className="footer">
           <div className="container-fluid">

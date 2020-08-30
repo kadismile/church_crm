@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const randomstring = require("randomstring");
 const {ChurchBeforeCreate} = require('./hooks/church_hooks');
-const categorySchema = require('.//Category');
+const categorySchema = require('./Category');
 
 const addressSchema = mongoose.Schema({
   _id: {
@@ -79,7 +79,9 @@ const ChurchSchema = mongoose.Schema({
     optional: true,
   },
   category: {
-    type : [categorySchema],
+    type : Array ,
+    default : [],
+    optional: true,
   },
   history: {
     type: Array,

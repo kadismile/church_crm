@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 var randomstring = require("randomstring");
 
-const categorySchema = mongoose.Schema({
+const CategorySchema = mongoose.Schema({
   _id: {
     type: String,
     default: function() {
@@ -9,7 +9,12 @@ const categorySchema = mongoose.Schema({
     }
   },
   name: {
-    type: String
+    type: String,
+    required: [true, 'name is required']
+  },
+  church_group: {
+    type: String,
+    required: [true, 'category Must be under a church group']
   },
   createdAt: {
     type: Date,
@@ -17,5 +22,5 @@ const categorySchema = mongoose.Schema({
   },
 },{versionKey: false});
 
-module.exports = categorySchema;
-//module.exports = mongoose.model('Category', categorySchema);
+//module.exports = CategorySchema;
+module.exports = mongoose.model('Category', CategorySchema);

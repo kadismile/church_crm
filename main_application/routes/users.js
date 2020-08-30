@@ -5,5 +5,7 @@ const permission =  require("../config/permissions");
 
 //router.post('/create', userController.userCreate);
 router.post('/get', protect, authorize(permission.USER_PERMISSION), userController.userGet);
+router.post('/category', protect, authorize(permission.USER_PERMISSION), userController.createCategory);
+router.get('/category', protect, authorize(permission.USER_PERMISSION), userController.getCategory);
 
 module.exports = router;

@@ -1,10 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {Link } from 'react-router-dom'
 import {useAuth} from '../context/auth-context'
+import {AddGroupModal} from '../components/modals/add_group'
 
 function Header() {
   let {user, logout} = useAuth();
   user = user[0];
+  const [showModal, setShowModal] = useState(false);
+  
+  const displayModal = (value) => {
+    setShowModal(value)
+  };
+  
   return (
+    <>
+      
       <header id="page-topbar">
         <div className="navbar-header">
         
@@ -21,15 +31,15 @@ function Header() {
                 <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
               </button>
               <div className="dropdown-menu">
-              
-           
-                <a href="/#" className="dropdown-item notify-item">
-                  Application
-                </a>
-              
-               
-                <a href="/#" className="dropdown-item notify-item">
-                  Software
+  
+  
+                <Link to="/add-church-member" className="dropdown-item notify-item">
+                  Church Member
+                </Link>
+  
+                
+                <a href="#" onClick={e => { setShowModal(true) }} className="dropdown-item notify-item">
+                  Group
                 </a>
               
                 
@@ -167,6 +177,8 @@ function Header() {
           </div>
         </div>
       </header>
+      {showModal ? <AddGroupModal toggleModal={displayModal}/> : ""}
+    </>
   )
 }
 
