@@ -18,6 +18,7 @@ env:
 
 before_script:
     - cd main_application
+    - nvm ls-remote
     - npm install
     - sleep 15
     - mongo mydb_test --eval 'db.createUser({user:"kadismile",pwd:"111222",roles:["readWrite"]});'
