@@ -18,6 +18,12 @@ const addressSchema = mongoose.Schema({
   },
   countryCode: {
     type: String,
+  },
+  lng: {
+    type: String
+  },
+  lat: {
+    type: String
   }
 },{versionKey: false});
 

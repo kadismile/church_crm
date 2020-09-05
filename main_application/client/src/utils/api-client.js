@@ -44,8 +44,8 @@ async function client(
         return Promise.reject(data)
       }
     }).catch((err)=>{
-        logout();
-        window.location.replace("/");
+       logout();
+       window.location.replace("/");
       })
 }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 function SideBar() {
   return (
       <>
@@ -21,14 +22,15 @@ function SideBar() {
                 <li className="menu-title">Menu</li>
           
                 <li>
-                  <a href="index.html" className="waves-effect"><i className='bx bx-home-smile'></i><span
-                      className="badge badge-pill badge-primary float-right">7</span><span>Dashboard</span></a>
+                  <Link to="/" className="waves-effect"> <i className='bx bx-home-smile'></i><span
+                      className="badge badge-pill badge-primary float-right">7</span><span>Dashboard</span></Link>
                 </li>
-                
+  
   
                 <li>
-                  <a href="index.html" className="waves-effect"><i className='bx bx-group'></i><span>Members</span></a>
+                  <Link to="/members" className="waves-effect"> <i className='bx bx-group'></i><span>Members</span> </Link>
                 </li>
+                
   
                 <li>
                   <a href="index.html" className="waves-effect"><i className='bx bx-cabinet'></i><span>Groups</span></a>

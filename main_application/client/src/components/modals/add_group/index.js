@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react'
 import { getCategory, createCategory } from '../../../utils/auth-client'
 import {useAuth} from '../../../context/auth-context'
 import LaddaButton, {SLIDE_UP, XXL} from "react-ladda";
-import validator from "validator";
 import toastr from "toastr";
 /**
  * @return {string}
@@ -53,11 +52,6 @@ function AddGroupModal(props) {
     let errors = formValues.errors;
     switch (name) {
       case "name":
-        setFormValues(prevState => {
-          return {
-            ...prevState, name: value}
-        });
-        
         errors.name =
             value.length <= 2
                 ? " name of category must be more than 2 characters long!"
