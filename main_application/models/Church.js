@@ -11,14 +11,26 @@ const addressSchema = mongoose.Schema({
     }
   },
   country: {
-    type: String
-  },
-  address: {
     type: String,
+    required: [true, 'country is missing']
+  },
+  fullAddress: {
+    type: String,
+    required: [true, 'full address is missing']
   },
   countryCode: {
     type: String,
+    required: [true, 'country code is missing']
+  },
+  longitude: {
+    type: Number,
+    required: [true, 'longitude missing']
+  },
+  latitude: {
+    type: String,
+    required: [true, 'latitude missing']
   }
+  
 },{versionKey: false});
 
 

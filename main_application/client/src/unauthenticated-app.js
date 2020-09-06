@@ -32,7 +32,7 @@ function UnauthenticatedApp() {
     let {email, password} = values;
     email = "brianking319@gmail.com";
     password = "111222";
-    login( {email, password})
+    let x = login( {email, password});
   }
   
   

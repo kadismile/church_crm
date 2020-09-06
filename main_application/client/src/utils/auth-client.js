@@ -34,13 +34,19 @@ function getCategory() {
 }
 
 function createCategory(data) {
-  
   const token = getToken();
   if (!token) {
     return Promise.resolve(null)
   }
-  
   return client(`${url.BASE_URL}/users/category`, {data}).then(data => data)
+}
+
+function registerUser(data) {
+  const token = getToken();
+  if (!token) {
+    return Promise.resolve(null)
+  }
+  return client(`${url.BASE_URL}/auth/user/register`, {data}).then(data => data)
 }
 
 function getToken() {
@@ -57,5 +63,5 @@ function isLoggedIn() {
 }
 
 
-export {login, register, getToken, isLoggedIn, getUser, getCategory, createCategory}
+export {login, register, getToken, isLoggedIn, getUser, getCategory, createCategory,registerUser}
 export {logout} from './api-client'
