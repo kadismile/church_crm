@@ -20,8 +20,10 @@ let church = {
   "phoneNumber": "07067875047",
   "address": {
     "country": "Nigeria",
-    "address": "Area 2 Garki Abuja",
-    "countryCode": "NG"
+    "fullAddress": "Area 1 Garki Abuja",
+    "countryCode": "NG",
+    "longitude": 5.6087561,
+    "latitude": 6.2691626
   },
   "password": "111222",
   "roles": ["superAdmin"],
